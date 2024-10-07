@@ -6,10 +6,10 @@ import Api from "../../services/Api";
 
 const Login = () => {
   const { mutateAsync } = useMutation({
-    mutationFn: ({email, password}: {email: string, password: string}) => Api.post("/login", {
-      email,
-      password
-    })
+    mutationFn: ({ email, password }: { email: string; password: string }) =>
+      Api.post("login", {
+        user: { email, password },
+      }),
   });
 
   const {
@@ -24,12 +24,10 @@ const Login = () => {
   });
 
   const onSubmit = (fields: any) => {
-    console.log("Hello there");
-    console.log(fields);
     mutateAsync({
       email: fields?.email,
-      password: fields?.password
-    })
+      password: fields?.password,
+    });
   };
 
   const schema = {
