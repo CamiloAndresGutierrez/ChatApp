@@ -1,16 +1,11 @@
 import { Controller, useForm } from "react-hook-form";
-import { emailRegex } from "../../utils/regexValidations";
-import Input from "../../core/Input";
-import { useMutation } from "@tanstack/react-query";
-import Api from "../../services/Api";
+import { emailRegex } from "../utils/regexValidations";
+import Input from "../core/Input";
+import { useAuth } from "../hooks/useAuthentication";
+import Button from "../core/Input/Button";
 
 const Login = () => {
-  const { mutateAsync } = useMutation({
-    mutationFn: ({ email, password }: { email: string; password: string }) =>
-      Api.post("login", {
-        user: { email, password },
-      }),
-  });
+  const { mutateAsync, isPending } = useAuth();
 
   const {
     control,
@@ -23,8 +18,8 @@ const Login = () => {
     },
   });
 
-  const onSubmit = (fields: any) => {
-    mutateAsync({
+  const onSubmit = async (fields: any) => {
+    await mutateAsync({
       email: fields?.email,
       password: fields?.password,
     });
@@ -49,7 +44,15 @@ const Login = () => {
           name="email"
           control={control}
           rules={schema.email}
-          render={({ field }) => <Input placeholder={"Email"} {...field} />}
+          render={({ field }) => (
+            <Input
+              label={"Email"}
+              placeholder={"Email"}
+              hasErrors={!!errors?.email}
+              {...field}
+              isLoading={isPending}
+            />
+          )}
         />
 
         <Controller
@@ -57,16 +60,22 @@ const Login = () => {
           control={control}
           rules={schema.password}
           render={({ field }) => (
-            <Input placeholder={"Password"} {...field} type="password" />
+            <Input
+              label={"Password"}
+              placeholder={"Password"}
+              hasErrors={!!errors?.password}
+              {...field}
+              type="password"
+            />
           )}
         />
 
-        <button
+        <Button
           type="submit"
-          className="bg-sky-500 block w-full rounded-md border-0 py-1.5 pl-2 pr-2 text-white ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600"
+          isLoading={isPending}
         >
           Submit
-        </button>
+        </Button>
       </form>
     </div>
   );

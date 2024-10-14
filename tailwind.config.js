@@ -8,5 +8,17 @@ export default {
     extend: {},
   },
   plugins: [],
+  theme: {
+    extend: {
+      colors: {
+        primary: {
+          DEFAULT: '#000000',   // Pure black
+          600: '#1A1A1A',       // Very dark gray
+          400: '#333333',       // Dark gray
+          200: '#666666',       // Medium gray
+          foreground: '#FFFFFF', // White for contrast
+        },
+      },
+    },
+  },
 }
-

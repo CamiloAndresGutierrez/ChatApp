@@ -1,20 +1,25 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Login from "./components/Login";
+import { RouterProvider } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { useBoundStore } from "./store";
+import { useEffect } from "react";
+import localStorage from "./utils/localStorage";
+import routes from "./router";
 
 function App() {
-  const queryClient = new QueryClient();
+  const { user, refetchCurrentUser } = useBoundStore();
 
-  const router = createBrowserRouter([
-    {
-      path: "/login",
-      element: <Login />,
-    },
-  ]);
+  useEffect(() => {
+    const authToken = localStorage.getAuthToken();
+    if (!!authToken && !user.id) {
+      refetchCurrentUser();
+    }
+  }, [user.id]);
+
+  const queryClient = new QueryClient();
 
   return (
     <QueryClientProvider client={queryClient}>
-      <RouterProvider router={router} />
+      <RouterProvider router={routes({ user: user })} />
     </QueryClientProvider>
   );
 }
