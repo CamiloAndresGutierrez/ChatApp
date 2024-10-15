@@ -18,6 +18,7 @@ export default {
           200: '#666666',       // Medium gray
           foreground: '#FFFFFF', // White for contrast
         },
+        divider: "rgba(255, 255, 255, 0.12)"
       },
     },
   },

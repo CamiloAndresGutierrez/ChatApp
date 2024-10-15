@@ -1,8 +1,8 @@
 import { Controller, useForm } from "react-hook-form";
-import { emailRegex } from "../utils/regexValidations";
 import Input from "../core/Input";
 import { useAuth } from "../hooks/useAuthentication";
 import Button from "../core/Input/Button";
+import { loginSchema } from "../schemas";
 
 const Login = () => {
   const { mutateAsync, isPending } = useAuth();
@@ -25,17 +25,6 @@ const Login = () => {
     });
   };
 
-  const schema = {
-    email: {
-      pattern: emailRegex,
-      required: true,
-    },
-    password: {
-      maxLength: 20,
-      required: true,
-    },
-  };
-
   return (
     <div className="container h-dvh text-center min-w-sm max-w-md m-auto flex justify-center align-middle flex-col">
       <h1 className="text-3xl font-bold mb-8">Login</h1>
@@ -43,33 +32,33 @@ const Login = () => {
         <Controller
           name="email"
           control={control}
-          rules={schema.email}
-          render={({ field }) => (
+          rules={loginSchema.email}
+          render={({ field: { onChange, value } }) => (
             <Input
               label={"Email"}
               placeholder={"Email"}
               hasErrors={!!errors?.email}
-              {...field}
+              onChange={onChange}
+              value={value}
               isLoading={isPending}
             />
           )}
         />
-
         <Controller
           name="password"
           control={control}
-          rules={schema.password}
-          render={({ field }) => (
+          rules={loginSchema.password}
+          render={({ field: { onChange, value } }) => (
             <Input
               label={"Password"}
               placeholder={"Password"}
               hasErrors={!!errors?.password}
-              {...field}
+              onChange={onChange}
+              value={value}
               type="password"
             />
           )}
         />
-
         <Button
           type="submit"
           isLoading={isPending}
