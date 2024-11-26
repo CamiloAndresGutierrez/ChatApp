@@ -1,3 +1,4 @@
+import camelcaseKeys from "camelcase-keys";
 import { Method, Obj, RequestArgs } from "../types/requests";
 import LocalStorageActions from "../utils/localStorage";
 
@@ -53,7 +54,8 @@ class Api {
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
-      return await response.json();
+
+      return camelcaseKeys(await response.json(), { deep: true });
     } catch (error) {
       console.error("API Request Failed:", error);
       throw error;

@@ -7,13 +7,14 @@ import {
   Avatar,
   ListItemText,
 } from "@mui/material";
-import { IUser } from "../types/user";
+import { ConversationInfo } from "../types/user";
 
 interface ContactsListProps {
-  contacts: IUser[];
+  contacts: ConversationInfo[] | null;
+  onClickContact: (conversationId: number) => void;
 }
 
-const ContactsList = ({ contacts }: ContactsListProps) => {
+const ContactsList = ({ contacts, onClickContact }: ContactsListProps) => {
   return (
     <Paper
       elevation={3}
@@ -28,13 +29,17 @@ const ContactsList = ({ contacts }: ContactsListProps) => {
         <TextField fullWidth size="small" placeholder="Search contacts" />
       </Box>
       <List>
-        {(contacts || []).map((contact: IUser) => (
-          <li className="flex mx-2 my-8" key={contact.id} onClick={() => {}}>
+        {(contacts || []).map((contact: ConversationInfo) => (
+          <li
+            className="flex mx-2 my-8"
+            key={contact.id}
+            onClick={() => onClickContact(contact.conversationId)}
+          >
             <ListItemAvatar>
               <Avatar />
             </ListItemAvatar>
             <ListItemText
-              primary={contact.name}
+              primary={contact.user.name}
               secondary={""}
               secondaryTypographyProps={{ noWrap: true }}
             />

@@ -11,8 +11,16 @@ import { ThemeProvider } from "@mui/material";
 function App() {
   const queryClient = new QueryClient();
   const authToken = localStorage.getAuthToken();
-  const { user, refetchCurrentUser, isLoadingUser } = useBoundStore();
+  const {
+    user,
+    refetchCurrentUser,
+    isLoadingUser,
+    subscription,
+    createSubscription,
+    removeSubscription,
+  } = useBoundStore();
   const shouldRefetch = !!authToken && !user.id;
+  const authenticatedUser = !isLoadingUser && !!user.id;
 
   useEffect(() => {
     if (shouldRefetch) {
@@ -20,7 +28,17 @@ function App() {
     }
   }, [user.id]);
 
-  if (isLoadingUser || shouldRefetch) {
+  useEffect(() => {
+    if (authenticatedUser && !subscription?.length) {
+      createSubscription();
+    }
+  }, [authenticatedUser, subscription]);
+
+  useEffect(() => {
+    return () => removeSubscription();
+  }, []);
+
+  if (isLoadingUser) {
     return <LoadingPage />;
   }
 

@@ -6,3 +6,11 @@ export interface IUser {
     lastSignInAt?: string,
     currentSignInAt?: string,
 }
+
+
+export interface ConversationInfo {
+    conversationId: number,
+    createdAt: string,
+    id: number,
+    user: IUser
+}

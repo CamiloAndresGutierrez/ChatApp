@@ -1,7 +1,7 @@
 import { StateCreator } from "zustand";
 import { IUser } from "../types/user";
 import { Users } from "../services/users";
-import { cable } from "../../socket";
+import localStorage from "../utils/localStorage";
 
 const INITIAL_USER_STATE = {
   id: null,
@@ -30,8 +30,15 @@ export const createUserStore: StateCreator<IUserStore> = (set) => ({
   updateUser: (user: IUser) => set({ user }),
   refetchCurrentUser: async () => {
     set({ isLoadingUser: true });
-    const currentUser = (await Users.currentUser()) as IUser;
+    try {
+      const currentUser = (await Users.currentUser()) as IUser;
 
-    return set({ user: currentUser, isLoadingUser: false });
+      return set({ user: currentUser });
+    } catch (e) {
+      localStorage.removeAuthToken();
+      return set({ user: INITIAL_USER_STATE });
+    } finally {
+      return set({ isLoadingUser: false });
+    }
   },
 });
