@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { CONTACTS, CURRENT_USER } from "../constants/users.contants";
 import { Users } from "../services/users";
 import { ConversationInfo, IUser } from "../types/user";
@@ -40,8 +40,24 @@ export const useMessages = ({
     queryFn: async (): Promise<IMessage[] | null> =>
       Messages.getMessages({
         page,
-        conversationId
+        conversationId,
       }),
-    enabled
+    enabled,
+  });
+};
+
+export const useCreateMessage = () => {
+  return useMutation({
+    mutationFn: ({
+      conversationId,
+      content,
+    }: {
+      conversationId: number;
+      content: string;
+    }) =>
+      Messages.createMessage({
+        conversationId,
+        content,
+      }),
   });
 };

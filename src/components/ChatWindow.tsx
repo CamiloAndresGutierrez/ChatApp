@@ -1,20 +1,56 @@
-import { Box, Typography, Paper } from "@mui/material";
+import { Box, Typography, Paper, IconButton, TextField } from "@mui/material";
 import { IUser } from "../types/user";
 import { IMessage } from "../types/messages";
+import { useEffect, useRef, useState } from "react";
+import { useCreateMessage } from "../hooks/user.hooks";
+import { Send } from "@mui/icons-material";
 
 interface ChatWindowProps {
   messages?: IMessage[];
   currentUser: IUser;
   contact?: IUser;
+  conversationId: number;
 }
 
-const ChatWindow = ({ messages, currentUser }: ChatWindowProps) => {
+const ChatWindow = ({
+  messages,
+  currentUser,
+  conversationId,
+}: ChatWindowProps) => {
+  const [newMessage, setNewMessage] = useState("");
+  const {
+    mutateAsync: createNewMessage,
+    isSuccess,
+    isError,
+  } = useCreateMessage();
+
+  const handleSendMessage = async () => {
+    if (newMessage !== "") {
+      await createNewMessage({
+        content: newMessage,
+        conversationId,
+      });
+    }
+  };
+
+  useEffect(() => {
+    if (isSuccess && !isError) {
+      setNewMessage("");
+    }
+  }, [isSuccess, isError]);
+
   return (
-    <Box sx={{ flexGrow: 1, display: "flex", flexDirection: "column" }}>
-      {/* <Box sx={{ p: 2, borderBottom: 1, borderColor: "divider" }}>
-        <Typography variant="h6">{contact?.name}</Typography>
-      </Box> */}
-      <Box sx={{ flexGrow: 1, overflow: "auto", p: 2 }}>
+    <>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column-reverse",
+          flexGrow: 1,
+          height: "80vh",
+          overflow: "auto",
+          p: 2,
+        }}
+      >
         {(messages || []).map((message) => (
           <Box key={message.id}>
             <Paper
@@ -40,28 +76,26 @@ const ChatWindow = ({ messages, currentUser }: ChatWindowProps) => {
         ))}
       </Box>
 
-      {/* Message Input */}
-      {/* <Box
-        component="form"
-        onSubmit={handleSendMessage}
-        sx={{ p: 2, borderTop: 1, borderColor: "divider" }}
-      >
-        <TextField
-          fullWidth
-          size="small"
-          placeholder="Type a message"
-          value={newMessage}
-          onChange={(e) => setNewMessage(e.target.value)}
-          InputProps={{
-            endAdornment: (
-              <IconButton type="submit" edge="end" color="primary">
-                <SendIcon />
-              </IconButton>
-            ),
-          }}
-        />
-      </Box> */}
-    </Box>
+      <TextField
+        fullWidth
+        size="small"
+        placeholder="Type a message"
+        value={newMessage}
+        onChange={(e) => setNewMessage(e.target.value)}
+        InputProps={{
+          endAdornment: (
+            <IconButton
+              edge="end"
+              color="primary"
+              disabled={newMessage === ""}
+              onClick={handleSendMessage}
+            >
+              <Send />
+            </IconButton>
+          ),
+        }}
+      />
+    </>
   );
 };
 

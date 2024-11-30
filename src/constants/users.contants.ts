@@ -9,3 +9,4 @@ export const CURRENT_USER_ROUTE = `${USERS_ROUTE}/current`
 export const CURRENT_USER_CONTACTS_ROUTE = `${USERS_ROUTE}/contacts`
 
 export const MESSAGES_ROUTE = (conversationId: number) => `${V1}/messages-list/${conversationId}`
+export const CREATE_MESSAGE_ROUTE = (conversationId: number) => `${V1}/conversations/${conversationId}/message`

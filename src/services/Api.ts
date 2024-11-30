@@ -3,12 +3,14 @@ import { Method, Obj, RequestArgs } from "../types/requests";
 import LocalStorageActions from "../utils/localStorage";
 
 class Api {
-  public headers: Obj<any>;
   public url: string;
 
   constructor() {
     this.url = import.meta.env.VITE_API_BASE_URL;
-    this.headers = {
+  }
+
+  private getHeaders(): Obj<any> {
+    return {
       "Content-Type": "application/json",
       Authorization: LocalStorageActions.getAuthToken() || "",
     };
@@ -18,7 +20,7 @@ class Api {
     try {
       const config = {
         method: "POST",
-        headers: this.headers,
+        headers: this.getHeaders(),
         body: JSON.stringify({
           user: {
             email,
@@ -45,7 +47,7 @@ class Api {
   private async request({ endpoint, method = Method.GET, body }: RequestArgs) {
     const config = {
       method,
-      headers: this.headers,
+      headers: this.getHeaders(),
       body: body ? JSON.stringify(body) : null,
     };
 

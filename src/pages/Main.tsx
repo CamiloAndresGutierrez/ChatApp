@@ -62,6 +62,7 @@ const Main = () => {
         <ChatWindow
           messages={filteredMessages?.[selectedConversation as number]}
           currentUser={user}
+          conversationId={selectedConversation as number}
         />
       </Box>
     </Page>
