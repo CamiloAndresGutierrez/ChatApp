@@ -1,50 +1,46 @@
-# React + TypeScript + Vite
+## Project Name & Pitch
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+#### Example:
 
-Currently, two official plugins are available:
+ChatApp 
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+An application that allows real-time user text communication to authenticated users.
 
-## Expanding the ESLint configuration
+## Project Status
+The development of this project is already finished, however, it has not yet been deployed.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## Project Screen Shot(s)
 
-- Configure the top-level `parserOptions` property like this:
+[Project demo](https://youtu.be/Mw1UWfO3Vqo)
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+## Installation and Setup Instructions
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+#### Example:  
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+Clone down this repository. You will need `node` and `npm` installed globally on your machine.  
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+Installation:
+
+`npm install`
+
+To Run Test Suite:  
+
+`npm test`  
+
+To Start Server:
+
+`npm start`  
+
+To Visit App:
+
+`localhost:5173`  
+
+## Reflection
+
+#### Example:  
+
+This application was created as a side project to acquire more knowledge on real-time communication. The core concept being the websockets protocol.
+
+This project uses the Tanstack React-query package to handle async operations.
+Zustand for state management.
+React hooks
