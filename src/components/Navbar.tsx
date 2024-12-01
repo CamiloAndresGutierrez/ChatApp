@@ -9,13 +9,12 @@ import {
   Menu,
   MenuItem,
   IconButton,
+  ButtonBase,
 } from "@mui/material";
-import {
-  Settings as SettingsIcon,
-  Logout as LogoutIcon,
-} from "@mui/icons-material";
+import { Logout as LogoutIcon } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 import { useBoundStore } from "../store";
+import localStorage from "../utils/localStorage";
 
 export default function Navbar() {
   const { user } = useBoundStore();
@@ -29,6 +28,11 @@ export default function Navbar() {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const handleLogout = () => {
+    localStorage.removeAuthToken()
+    window.location.reload();
+  }
 
   return (
     <AppBar position="static" color="primary">
@@ -68,12 +72,10 @@ export default function Navbar() {
           anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
         >
           <MenuItem>
-            <SettingsIcon className="mr-2 h-4 w-4" />
-            Settings
-          </MenuItem>
-          <MenuItem>
-            <LogoutIcon className="mr-2 h-4 w-4" />
-            Logout
+            <ButtonBase onClick={handleLogout}>
+              <LogoutIcon className="mr-2 h-4 w-4" />
+              Logout
+            </ButtonBase>
           </MenuItem>
         </Menu>
       </Toolbar>

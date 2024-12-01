@@ -40,7 +40,7 @@ const ChatWindow = ({
   }, [isSuccess, isError]);
 
   return (
-    <>
+    <Box sx={{ display: "flex", flexDirection: "column", width: '100%' }}>
       <Box
         sx={{
           display: "flex",
@@ -58,6 +58,9 @@ const ChatWindow = ({
               sx={{
                 p: 2,
                 maxWidth: "70%",
+                marginTop: '10px',
+                marginBottom: '10px',
+                float: message.userId === currentUser.id ? 'right' : 'left',
                 bgcolor:
                   message.userId === currentUser.id
                     ? "primary.light"
@@ -76,26 +79,28 @@ const ChatWindow = ({
         ))}
       </Box>
 
-      <TextField
-        fullWidth
-        size="small"
-        placeholder="Type a message"
-        value={newMessage}
-        onChange={(e) => setNewMessage(e.target.value)}
-        InputProps={{
-          endAdornment: (
-            <IconButton
-              edge="end"
-              color="primary"
-              disabled={newMessage === ""}
-              onClick={handleSendMessage}
-            >
-              <Send />
-            </IconButton>
-          ),
-        }}
-      />
-    </>
+      {conversationId && (
+        <TextField
+          fullWidth
+          size="small"
+          placeholder="Type a message"
+          value={newMessage}
+          onChange={(e) => setNewMessage(e.target.value)}
+          InputProps={{
+            endAdornment: (
+              <IconButton
+                edge="end"
+                color="primary"
+                disabled={newMessage === ""}
+                onClick={handleSendMessage}
+              >
+                <Send />
+              </IconButton>
+            ),
+          }}
+        />
+      )}
+    </Box>
   );
 };
 
